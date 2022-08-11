@@ -50,7 +50,7 @@
 #define LEDC_DUTY_RES           LEDC_TIMER_13_BIT // Set duty resolution to 13 bits
 #define LEDC_SERVO_DUTY_RES           LEDC_TIMER_13_BIT // Set duty resolution to 13 bits 分辨率2的13次方
 #define LEDC_DUTY               (4095) // Set duty to 50%. ((2 ** 13) - 1) * 50% = 4095
-#define LEDC_SERVO_DUTY               (532) // +-270 Set duty to 5%. ((2 ** 13) - 1) * 7.5% = 614.4(理论值，测试时以实际情况为准，该值需要自己调试)  0.5ms-2.5ms舵机调整范围  pwm波 20ms周期，2.5%-12.5%占空比 调整0-180度 中间值为1.5ms，占空比为7.5%  409分辨率
+#define LEDC_SERVO_DUTY               (532) // +-140 Set duty to 5%. ((2 ** 13) - 1) * 7.5% = 614.4(理论值，测试时以实际情况为准，该值需要自己调试)  0.5ms-2.5ms舵机调整范围  pwm波 20ms周期，2.5%-12.5%占空比 调整0-180度 中间值为1.5ms，占空比为7.5%  409分辨率
 #define LEDC_FREQUENCY          (5000) // Frequency in Hertz. Set frequency at 5 kHz  电机pwm频率
 #define LEDC_SERVO_FREQUENCY          (50) // Frequency in Hertz. Set frequency at 50Hz  舵机pwm波频率
 
@@ -293,14 +293,14 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
             if(xangle-x>0){
                 //turn left左转
                 // en2.servoWrite(parseInt(pulseWithmidle+(xangle-JSON.parse(message.toString()).x)*3.125))
-                    ESP_ERROR_CHECK(ledc_set_duty(LEDC_MODE, SERVO_CHANNEL,pulseWithmidle+(xangle-x)*2.1));//转向如果过大，调低2.1这个系数，转向不足调高这个系数
+                    ESP_ERROR_CHECK(ledc_set_duty(LEDC_MODE, SERVO_CHANNEL,pulseWithmidle+(xangle-x)*1.1));//转向如果过大，调低2.1这个系数，转向不足调高这个系数
                     // Update duty to apply the new value
                     ESP_ERROR_CHECK(ledc_update_duty(LEDC_MODE, SERVO_CHANNEL));
                 }
                 if(x-xangle>0){
                 //turn right右转
                 // en2.servoWrite(parseInt(pulseWithmidle-(JSON.parse(message.toString()).x-xangle)*3.125))
-                 ESP_ERROR_CHECK(ledc_set_duty(LEDC_MODE, SERVO_CHANNEL,pulseWithmidle-(x-xangle)*2.1));//转向如果过大，调低2.1这个系数，转向不足调高这个系数
+                 ESP_ERROR_CHECK(ledc_set_duty(LEDC_MODE, SERVO_CHANNEL,pulseWithmidle-(x-xangle)*1.1));//转向如果过大，调低2.1这个系数，转向不足调高这个系数
                     // Update duty to apply the new value
                     ESP_ERROR_CHECK(ledc_update_duty(LEDC_MODE, SERVO_CHANNEL));
                 }
