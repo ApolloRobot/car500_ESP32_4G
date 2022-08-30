@@ -58,7 +58,7 @@ static const char *TAG = "MQTT_EXAMPLE";
 static char mqtt_msg[512];
 
 //mqtt接收消息缓冲区
-static float initspeed=0.5;
+static float initspeed=0.25;
 //小车初始速度系数
 static int ledstatus=0;
 //车灯状态
@@ -254,11 +254,11 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
             }
         }else if (strcmp(mqtt_msg,"one")==0)
         {
-            initspeed =1;
+            initspeed =0.65;
             return;
         }else if (strcmp(mqtt_msg,"half")==0)
         {
-            initspeed=0.5;
+            initspeed=0.45;
             return;
         }else if (strcmp(mqtt_msg,"halfhalf")==0)
         {
